@@ -1,0 +1,177 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "title": "Choose a scale",
+        "description": "Pick the scale to set up. Scales marked untested are decoded from the vendor app but have not been tried on a real scale.",
+        "data": { "address": "Scale" }
+      },
+      "bluetooth_confirm": {
+        "title": "Body scale found",
+        "description": "Set up {name} ({model})? The scale is read passively from its Bluetooth advertisements."
+      },
+      "untested": {
+        "title": "Untested scale type",
+        "description": "This scale type ({model}) hasn't been tested with a real scale yet. Its readings are decoded from the vendor app's protocol, so weights may be wrong or missing, and body fat is only calculated for scales that use the WLA03 formula. If it doesn't work, open an issue and attach the integration's diagnostics download: it includes recent raw broadcasts from the scale."
+      },
+      "person": {
+        "title": "Add a person",
+        "description": "Add someone who uses the scale. You can add more people next, and change them later in the integration options.",
+        "data": {
+          "name": "Name",
+          "height_cm": "Height (cm)",
+          "sex": "Sex",
+          "birth_date": "Date of birth",
+          "athlete": "Athlete mode",
+          "notify_services": "Notify services"
+        },
+        "data_description": {
+          "height_cm": "Between 100 and 250 cm.",
+          "notify_services": "Services used to ask who stepped on the scale, e.g. notify.mobile_app_phone."
+        }
+      },
+      "another_person": {
+        "title": "Person added",
+        "description": "Add another person, or finish setting up the scale.",
+        "menu_options": {
+          "add_another": "Add another person",
+          "finish": "Finish setup"
+        }
+      }
+    },
+    "error": {
+      "name_required": "Enter a name.",
+      "invalid_date": "Enter a valid date.",
+      "birth_date_in_future": "Date of birth must be in the past.",
+      "notify_required": "Select at least one notify service.",
+      "unknown_notify_service": "One of the selected notify services does not exist."
+    },
+    "abort": {
+      "already_configured": "This scale is already configured.",
+      "no_devices_found": "No supported body scale found nearby. Step on the scale and try again.",
+      "not_supported": "This device is not a supported body scale."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Broadcast Body Scale",
+        "menu_options": {
+          "add_person": "Add person",
+          "edit_person": "Edit person",
+          "remove_person": "Remove person",
+          "settings": "Matching settings"
+        }
+      },
+      "add_person": { "title": "Add person", "data": {
+        "name": "Name",
+        "height_cm": "Height (cm)",
+        "sex": "Sex",
+        "birth_date": "Date of birth",
+        "athlete": "Athlete mode",
+        "notify_services": "Notify services"
+      }, "data_description": {
+        "height_cm": "Between 100 and 250 cm.",
+        "notify_services": "Services used to ask who stepped on the scale, e.g. notify.mobile_app_phone."
+      } },
+      "edit_person": { "title": "Edit person", "data": { "person": "Person" } },
+      "edit_person_form": { "title": "Edit person", "data": {
+        "name": "Name",
+        "height_cm": "Height (cm)",
+        "sex": "Sex",
+        "birth_date": "Date of birth",
+        "athlete": "Athlete mode",
+        "notify_services": "Notify services"
+      } },
+      "remove_person": { "title": "Remove person", "data": { "person": "Person" } },
+      "settings": {
+        "title": "Matching settings",
+        "data": {
+          "tolerance_kg": "Matching tolerance (kg)",
+          "confirm_auto_assign": "Confirm automatic matches"
+        },
+        "data_description": {
+          "tolerance_kg": "How close a reading must be to a person's last weight to match them (0.5 to 20 kg).",
+          "confirm_auto_assign": "Send the matched person a notification with buttons to move the reading to someone else or undo it."
+        }
+      }
+    },
+    "error": {
+      "name_required": "Enter a name.",
+      "invalid_date": "Enter a valid date.",
+      "birth_date_in_future": "Date of birth must be in the past.",
+      "notify_required": "Select at least one notify service.",
+      "unknown_notify_service": "One of the selected notify services does not exist."
+    },
+    "abort": {
+      "person_not_found": "That person no longer exists."
+    }
+  },
+  "selector": {
+    "sex": { "options": { "male": "Male", "female": "Female" } }
+  },
+  "services": {
+    "assign_reading": {
+      "name": "Assign reading",
+      "description": "Assigns a scale reading to a person. A reading that is already assigned is moved.",
+      "fields": {
+        "reading_id": {
+          "name": "Reading ID",
+          "description": "ID of the reading, as listed by the unassigned readings sensor or the measurement event."
+        },
+        "person": {
+          "name": "Person",
+          "description": "The person's ID or name."
+        }
+      }
+    },
+    "discard_reading": {
+      "name": "Discard reading",
+      "description": "Discards a scale reading, for example a guest's, whether or not it is assigned.",
+      "fields": {
+        "reading_id": {
+          "name": "Reading ID",
+          "description": "ID of the reading, as listed by the unassigned readings sensor or the measurement event."
+        }
+      }
+    }
+  },
+  "entity": {
+    "number": {
+      "height": { "name": "Height" }
+    },
+    "select": {
+      "assign_latest": { "name": "Assign latest reading" }
+    },
+    "sensor": {
+      "weight": { "name": "Weight" },
+      "weight_lb": { "name": "Weight (lb)" },
+      "weight_st": { "name": "Weight (st lb)" },
+      "weight_change": { "name": "Change since last" },
+      "weight_change_lb": { "name": "Change since last (lb)" },
+      "signal_strength": { "name": "Signal strength" },
+      "last_seen": { "name": "Last seen" },
+      "body_fat": { "name": "Body fat" },
+      "bmi": { "name": "BMI" },
+      "last_measured": { "name": "Last measured" },
+      "impedance": { "name": "Impedance" },
+      "water": { "name": "Water" },
+      "muscle": { "name": "Muscle mass" },
+      "bone": { "name": "Bone mass" },
+      "visceral_fat": { "name": "Visceral fat" },
+      "bmr": { "name": "Basal metabolic rate" },
+      "body_age": { "name": "Body age" },
+      "protein": { "name": "Protein" },
+      "subcutaneous_fat": { "name": "Subcutaneous fat" },
+      "skeletal_muscle": { "name": "Skeletal muscle" },
+      "unassigned_readings": { "name": "Unassigned readings" }
+    }
+  },
+  "issues": {
+    "missing_notify_service": {
+      "title": "Scale notification service {service} is missing",
+      "description": "The body scale uses {service} to notify {people}, but it does not exist. Open the scale's Configure options and pick a working notify service, or reinstall the phone app if the service was removed."
+    }
+  }
+}

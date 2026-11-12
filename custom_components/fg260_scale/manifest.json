@@ -1,0 +1,235 @@
+{
+  "domain": "fg260_scale",
+  "name": "Broadcast Body Scale",
+  "bluetooth": [
+    {
+      "manufacturer_id": 37036
+    },
+    {
+      "manufacturer_id": 37066
+    },
+    {
+      "manufacturer_id": 37292
+    },
+    {
+      "manufacturer_id": 37322
+    },
+    {
+      "manufacturer_id": 37548
+    },
+    {
+      "manufacturer_id": 37578
+    },
+    {
+      "manufacturer_id": 38828
+    },
+    {
+      "manufacturer_id": 38858
+    },
+    {
+      "manufacturer_id": 39084
+    },
+    {
+      "manufacturer_id": 39114
+    },
+    {
+      "manufacturer_id": 39340
+    },
+    {
+      "manufacturer_id": 39370
+    },
+    {
+      "manufacturer_id": 39596
+    },
+    {
+      "manufacturer_id": 39626
+    },
+    {
+      "manufacturer_id": 39852
+    },
+    {
+      "manufacturer_id": 39882
+    },
+    {
+      "manufacturer_id": 40108
+    },
+    {
+      "manufacturer_id": 40138
+    },
+    {
+      "manufacturer_id": 40364
+    },
+    {
+      "manufacturer_id": 40394
+    },
+    {
+      "manufacturer_id": 40620
+    },
+    {
+      "manufacturer_id": 40650
+    },
+    {
+      "manufacturer_id": 40876
+    },
+    {
+      "manufacturer_id": 40906
+    },
+    {
+      "manufacturer_id": 41132
+    },
+    {
+      "manufacturer_id": 41162
+    },
+    {
+      "manufacturer_id": 41388
+    },
+    {
+      "manufacturer_id": 41418
+    },
+    {
+      "manufacturer_id": 41644
+    },
+    {
+      "manufacturer_id": 41674
+    },
+    {
+      "manufacturer_id": 42924
+    },
+    {
+      "manufacturer_id": 42954
+    },
+    {
+      "manufacturer_id": 43180
+    },
+    {
+      "manufacturer_id": 43210
+    },
+    {
+      "manufacturer_id": 43436
+    },
+    {
+      "manufacturer_id": 43466
+    },
+    {
+      "manufacturer_id": 43692
+    },
+    {
+      "manufacturer_id": 43722
+    },
+    {
+      "manufacturer_id": 43948
+    },
+    {
+      "manufacturer_id": 43978
+    },
+    {
+      "manufacturer_id": 44204
+    },
+    {
+      "manufacturer_id": 44234
+    },
+    {
+      "manufacturer_id": 44460
+    },
+    {
+      "manufacturer_id": 44490
+    },
+    {
+      "manufacturer_id": 44716
+    },
+    {
+      "manufacturer_id": 44746
+    },
+    {
+      "manufacturer_id": 44972
+    },
+    {
+      "manufacturer_id": 45002
+    },
+    {
+      "manufacturer_id": 45228
+    },
+    {
+      "manufacturer_id": 45258
+    },
+    {
+      "manufacturer_id": 45484
+    },
+    {
+      "manufacturer_id": 45514
+    },
+    {
+      "manufacturer_id": 45740
+    },
+    {
+      "manufacturer_id": 45770
+    },
+    {
+      "manufacturer_id": 47020
+    },
+    {
+      "manufacturer_id": 47050
+    },
+    {
+      "manufacturer_id": 47276
+    },
+    {
+      "manufacturer_id": 47306
+    },
+    {
+      "manufacturer_id": 47532
+    },
+    {
+      "manufacturer_id": 47562
+    },
+    {
+      "manufacturer_id": 47788
+    },
+    {
+      "manufacturer_id": 47818
+    },
+    {
+      "manufacturer_id": 48044
+    },
+    {
+      "manufacturer_id": 48074
+    },
+    {
+      "manufacturer_id": 48300
+    },
+    {
+      "manufacturer_id": 48330
+    },
+    {
+      "manufacturer_id": 48556
+    },
+    {
+      "manufacturer_id": 48586
+    },
+    {
+      "manufacturer_id": 48812
+    },
+    {
+      "manufacturer_id": 48842
+    },
+    {
+      "manufacturer_id": 49068
+    },
+    {
+      "manufacturer_id": 49098
+    }
+  ],
+  "codeowners": [
+    "@jonny190"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "bluetooth_adapters"
+  ],
+  "documentation": "https://github.com/jonny190/ha-broadcast-body-scale",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/jonny190/ha-broadcast-body-scale/issues",
+  "requirements": [],
+  "version": "0.2.0"
+}

@@ -1,0 +1,170 @@
+[
+ {
+  "time": 1794387124.364108,
+  "rssi": -102,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c8a0a00df5"
+  }
+ },
+ {
+  "time": 1794387124.620109,
+  "rssi": -98,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c841b40dea"
+  }
+ },
+ {
+  "time": 1794387124.83611,
+  "rssi": -95,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c9611a0df1"
+  }
+ },
+ {
+  "time": 1794387126.9121196,
+  "rssi": -98,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c9636c0de5"
+  }
+ },
+ {
+  "time": 1794387128.3721263,
+  "rssi": -99,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaa20c963040dfd"
+  }
+ },
+ {
+  "time": 1794387129.9501336,
+  "rssi": -95,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa2aca0a306f7"
+  }
+ },
+ {
+  "time": 1794387140.6281824,
+  "rssi": -95,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c8a0a00df5"
+  }
+ },
+ {
+  "time": 1794387147.790215,
+  "rssi": -96,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c964900dea"
+  }
+ },
+ {
+  "time": 1794387148.2832172,
+  "rssi": -93,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c91f9a0def"
+  }
+ },
+ {
+  "time": 1794387149.3832223,
+  "rssi": -96,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c961f60ded"
+  }
+ },
+ {
+  "time": 1794387149.4942229,
+  "rssi": -92,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c962360dee"
+  }
+ },
+ {
+  "time": 1794387149.7092237,
+  "rssi": -93,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c961060dfd"
+  }
+ },
+ {
+  "time": 1794387150.9652295,
+  "rssi": -94,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c961ca0de1"
+  }
+ },
+ {
+  "time": 1794387151.548232,
+  "rssi": -96,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaa20c961ca0de1"
+  }
+ },
+ {
+  "time": 1794387152.6802373,
+  "rssi": -92,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa2ada0a306f8"
+  }
+ },
+ {
+  "time": 1794387171.4213228,
+  "rssi": -93,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c909fa0df9"
+  }
+ },
+ {
+  "time": 1794387175.4973414,
+  "rssi": -93,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaa20c960240dfa"
+  }
+ },
+ {
+  "time": 1794387175.7213426,
+  "rssi": -99,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0a0a0a306e9"
+  }
+ },
+ {
+  "time": 1794387385.790301,
+  "rssi": -96,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c8a0a00df5"
+  }
+ },
+ {
+  "time": 1794387386.6073048,
+  "rssi": -97,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c961780def"
+  }
+ },
+ {
+  "time": 1794387386.7063053,
+  "rssi": -95,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c9614c0de3"
+  }
+ },
+ {
+  "time": 1794387387.7203097,
+  "rssi": -96,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa0c962f00de8"
+  }
+ },
+ {
+  "time": 1794387388.638314,
+  "rssi": -91,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaa20c962f00de8"
+  }
+ },
+ {
+  "time": 1794387390.3443217,
+  "rssi": -90,
+  "manufacturer_data": {
+   "41132": "ffeeddccbbaaa2aea0a306f9"
+  }
+ }
+]
