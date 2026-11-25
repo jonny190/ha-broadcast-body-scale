@@ -132,7 +132,7 @@ async def test_impedance_is_corrected_and_rounded(
     setup_entry: Any,
     bt_register: Any,
 ) -> None:
-    from custom_components.fg260_scale.body.wla03 import correct_impedance
+    from custom_components.fg260_scale.parser import a6_impedance_ohms
 
     _store(hass_storage, {"queue": [], "last": {"chris": _last(115.0, EARLIER)}})
     await setup_entry()
@@ -140,7 +140,7 @@ async def test_impedance_is_corrected_and_rounded(
     await hass.config_entries.async_reload(ENTRY_ID)
     await hass.async_block_till_done()
     await _feed(hass, freezer, bt_register, SESSION_2)
-    expected = round(correct_impedance(525, 115.05))
+    expected = round(a6_impedance_ohms(525, 115.05))
     state = hass.states.get(_entity_id(hass, "chris", "impedance"))
     assert state.state == str(expected)
     assert state.attributes["unit_of_measurement"] == "Ω"

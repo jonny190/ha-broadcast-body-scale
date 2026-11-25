@@ -15,29 +15,31 @@ yet, so they are marked **untested** during setup and in the device's model.
 
 | Scale | How it is recognised | Status | Body composition |
 | --- | --- | --- | --- |
-| FG260 / `AAA006` | company ID `0xA0AC` | **Tested** | WLA03, calculated here |
-| Other iComon broadcast scales and balance scales | company ID `0x??AC` or `0x??CA` with the broadcast bit set (72 IDs, discovered automatically) | Untested | WLA03 if the scale asks for it, else weight and BMI |
-| "BM15" broadcast scales | company ID `0x??BC`, encrypted payload, no service UUIDs | Untested | Weight and BMI |
-| "BM02" broadcast scales | company ID `0x00AC`/`0x01AC`, plus service UUID `FFB0`/`FEB0`/`C0FF` | Untested | Values the scale calculates itself, else weight and BMI |
+| FG260 / `AAA006` | company ID `0xA0AC` | **Tested** | Calculated here |
+| Other iComon broadcast scales and balance scales | company ID `0x??AC` or `0x??CA` with the broadcast bit set (72 IDs, discovered automatically) | Untested | Calculated here when the scale sends impedance |
+| "BM15" broadcast scales | company ID `0x??BC`, encrypted payload, no service UUIDs | Untested | Calculated here when the scale sends impedance |
+| "BM02" broadcast scales | company ID `0x00AC`/`0x01AC`, plus service UUID `FFB0`/`FEB0`/`C0FF` | Untested | Calculated here from impedance, else the values the scale calculates itself |
 
 Untested scales: if one works, or doesn't, please open an issue with the
 integration's **Download diagnostics** file. It includes the scale's last 50
 distinct raw broadcasts (with the scale's address blanked), which is what is
 needed to confirm or fix support.
 
-Body fat and the other composition values need the scale's body-fat formula.
-Only WLA03 is implemented so far. Scales using another formula (or not saying
-which) get weight and BMI only; their impedance is still stored, so results
-can be recalculated if more formulas are added.
+Body fat and the other composition values are calculated from the weight,
+your height, age and sex, and the impedance the scale measures (see
+[Body composition](#body-composition)).
 
 "A4" iComon scales and anything that needs a Bluetooth connection are not
 supported. Protocol notes are in [docs/protocol.md](docs/protocol.md).
 
-## Installation (HACS custom repository)
+## Installation
 
-1. In HACS, open the menu, choose **Custom repositories** and add
-   `https://github.com/jonny190/ha-broadcast-body-scale` with category **Integration**.
-2. Install **Broadcast Body Scale** and restart Home Assistant.
+1. In HACS (the Marketplace), search for **Broadcast Body Scale** and install
+   it, then restart Home Assistant.
+2. If it doesn't show up in the search yet, add it as a custom repository
+   first: open the menu, choose **Custom repositories**, and add
+   `https://github.com/jonny190/ha-broadcast-body-scale` with category
+   **Integration**.
 
 Requirements: Home Assistant with Python 3.13 or newer (the body composition
 maths uses `math.fma`). Home Assistant 2026.x ships Python 3.13+.
@@ -50,7 +52,7 @@ maths uses `math.fma`). Home Assistant 2026.x ships Python 3.13+.
    scales are not discovered automatically (their company ID varies), so
    add those manually while stepping on the scale.
 2. Setup then guides you through adding people. For each person enter a name,
-   height (100 to 250 cm), sex, date of birth, athlete mode, and the notify
+   height (100 to 250 cm), sex, date of birth, and the notify
    services used to ask who weighed in (for example `notify.mobile_app_phone`;
    at least one is required). After each person choose **Add another person**
    or **Finish setup**. At least one person is required.
@@ -110,8 +112,10 @@ their last 50 results). Editing a person in **Configure** recalculates the
 same way.
 
 Per person, disabled by default (enable them in the entity settings): Impedance,
-Water, Muscle mass, Bone mass, Visceral fat, Basal metabolic rate, Body age,
-Protein, Subcutaneous fat, Skeletal muscle.
+Water, Muscle mass, Bone mass, Basal metabolic rate, Protein, Skeletal
+muscle, and (only for scales that calculate them, see
+[Body composition](#body-composition)) Visceral fat, Body age and
+Subcutaneous fat.
 
 On the scale device: **Unassigned readings**, **Assign latest reading**, and
 the diagnostics **Signal strength** (best proxy, with the proxy as the
@@ -166,13 +170,36 @@ The scale's signal is weak. Use a Bluetooth adapter or ESPHome Bluetooth proxy
 within a few metres of the scale, ideally in the same room. Passive scanning is
 enough; the integration makes no connection to the scale.
 
-## Accuracy and provenance
+## Body composition
 
-Body composition is an independent reimplementation of the WLA03 algorithm used
-by the FitDays app, verified against reference vectors. The integration's
-internal domain is still `fg260_scale`, so existing setups keep working. No vendor code or
-binaries are included in this repository. If FitDays was configured with a
-different per-user algorithm, values can differ from the app.
+Body composition comes from published equations for bioelectrical impedance,
+using your weight, height, age and sex and the impedance the scale measures.
+Any scale that sends impedance gets these values.
+
+| Value | How it is calculated |
+| --- | --- |
+| Fat-free mass, body fat | Sun et al., *Am J Clin Nutr* 2003;77:331-340 (NHANES III equations) |
+| Skeletal muscle | Janssen et al., *J Appl Physiol* 2000;89:465-471 |
+| Water, protein, bone mineral, muscle mass | Fixed shares of fat-free mass from the Brozek et al. (1963) reference body |
+| Basal metabolic rate | Katch-McArdle equation: 370 + 21.6 × fat-free mass |
+| BMI | Weight ÷ height² |
+
+These equations come from studies that measured whole-body (hand-to-foot)
+impedance, while a bathroom scale measures foot to foot. So read the values
+as a consistent trend rather than a clinical measurement. They will differ
+from what the scale's own app shows, often by a few percent of body fat.
+
+Visceral fat, subcutaneous fat and body age have no published equation for
+these inputs, so they are only shown for scales that calculate them
+themselves (BM02). Changing the method or a person's height recalculates
+their stored results, because each result keeps its weight and impedance.
+
+## Provenance
+
+No vendor code or binaries are included in this repository. The Bluetooth
+formats were worked out from how the vendor app reads the scales, and are
+described in [docs/protocol.md](docs/protocol.md). The integration's
+internal domain is still `fg260_scale`, so existing setups keep working.
 
 ## Links
 

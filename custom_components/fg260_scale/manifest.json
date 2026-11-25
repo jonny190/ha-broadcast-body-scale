@@ -231,5 +231,5 @@
   "iot_class": "local_push",
   "issue_tracker": "https://github.com/jonny190/ha-broadcast-body-scale/issues",
   "requirements": [],
-  "version": "0.2.0"
+  "version": "0.3.0"
 }

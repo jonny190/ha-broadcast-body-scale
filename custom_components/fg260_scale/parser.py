@@ -50,8 +50,9 @@ _BM15_LEN = 13
 _BM02_LEN = 18
 _BM02_FRAME = slice(10, 18)
 
-# Raw ADC handling: "fitdays" applies the vendor correction for the AAA006's
-# 0xA6 frame (manager.compute); "ohm" means the value is already final.
+# Impedance handling: "fitdays" (a stored value, kept for compatibility)
+# means an 0xA6 raw value that a6_impedance_ohms converts; "ohm" means the
+# value is already in ohms.
 AdcMode = Literal["fitdays", "ohm"]
 
 FrameKind = Literal["weight", "impedance", "done", "metric"]
@@ -186,6 +187,19 @@ def parse_manufacturer_data(
 
 
 # -- icomon -------------------------------------------------------------------
+
+
+def a6_impedance_ohms(adc: float, weight_kg: float) -> float:
+    """Impedance in ohms from an 0xA6 frame's raw value.
+
+    Small values are already ohms; large ones are scaled using the weight.
+    """
+    value = adc
+    if value >= 1500:
+        value = ((value - 1000) - weight_kg * 4) / 0.6 / 10
+    if value > 1500:
+        value /= 10
+    return value
 
 
 def _vendor_adc(adc: float) -> float:

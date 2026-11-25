@@ -63,7 +63,6 @@ async def async_get_config_entry_diagnostics(
                 "index": index,
                 "height_cm": person.height_cm,
                 "sex": person.sex,
-                "athlete": person.athlete,
                 "notify_service_count": len(person.notify_services),
                 "results": async_redact_data(
                     [r.as_dict() for r in manager.history(person.id)[-5:]], TO_REDACT

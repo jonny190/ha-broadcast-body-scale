@@ -17,7 +17,6 @@ class Person:
     height_cm: int
     sex: Literal["male", "female"]
     birth_date: date
-    athlete: bool = False
     notify_services: list[str] = field(default_factory=list)
 
 
@@ -39,7 +38,6 @@ def people_from_options(options: Mapping[str, Any]) -> dict[str, Person]:
             height_cm=int(raw["height_cm"]),
             sex=raw["sex"],
             birth_date=date.fromisoformat(raw["birth_date"]),
-            athlete=bool(raw.get("athlete", False)),
             notify_services=list(raw.get("notify_services", [])),
         )
         people[person.id] = person

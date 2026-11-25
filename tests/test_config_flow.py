@@ -55,7 +55,6 @@ def _setup_person_input(**over):
         "height_cm": 180,
         "sex": "male",
         "birth_date": "1985-01-01",
-        "athlete": False,
         "notify_services": ["notify.chris_phone"],
     }
     data.update(over)
@@ -106,7 +105,6 @@ async def test_bluetooth_discovery_guided_setup(
         "height_cm": 180,
         "sex": "male",
         "birth_date": "1985-01-01",
-        "athlete": False,
         "notify_services": ["notify.chris_phone"],
     }
 
@@ -141,7 +139,6 @@ async def test_user_step_guided_setup_two_people(
         _setup_person_input(
             name="Sam",
             sex="female",
-            athlete=True,
             notify_services=["notify.other"],
         ),
     )
@@ -158,7 +155,6 @@ async def test_user_step_guided_setup_two_people(
     assert [p["name"] for p in people] == ["Chris", "Sam"]
     assert people[0]["id"] != people[1]["id"]
     assert people[1]["sex"] == "female"
-    assert people[1]["athlete"] is True
     assert people[1]["notify_services"] == ["notify.other"]
     assert result["options"]["tolerance_kg"] == 3.0
 
@@ -287,7 +283,6 @@ def _person_input(**over):
         "height_cm": 180,
         "sex": "male",
         "birth_date": "1985-01-01",
-        "athlete": False,
         "notify_services": ["notify.chris_phone"],
     }
     data.update(over)
@@ -318,7 +313,6 @@ async def test_options_add_edit_remove_person(
     assert person.height_cm == 180
     assert person.sex == "male"
     assert person.birth_date == date(1985, 1, 1)
-    assert person.athlete is False
     assert person.notify_services == ["notify.chris_phone"]
     assert entry.options["tolerance_kg"] == 3.0
     assert entry.options["people"][0]["birth_date"] == "1985-01-01"

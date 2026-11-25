@@ -84,9 +84,6 @@ class PersonFormMixin:
                     "birth_date", default=defaults.get("birth_date", "1990-01-01")
                 ): selector.DateSelector(),
                 vol.Required(
-                    "athlete", default=defaults.get("athlete", False)
-                ): bool,
-                vol.Required(
                     "notify_services", default=defaults.get("notify_services", [])
                 ): selector.SelectSelector(
                     selector.SelectSelectorConfig(
@@ -126,7 +123,6 @@ class PersonFormMixin:
             "height_cm": int(user_input["height_cm"]),
             "sex": user_input["sex"],
             "birth_date": user_input["birth_date"],
-            "athlete": bool(user_input["athlete"]),
             "notify_services": list(user_input["notify_services"]),
         }
 

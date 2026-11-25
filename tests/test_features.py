@@ -8,7 +8,7 @@ from typing import Any
 import pytest
 from homeassistant.core import HomeAssistant
 
-from custom_components.fg260_scale.body.wla03 import calculate
+from custom_components.fg260_scale.body.composition import calculate
 from custom_components.fg260_scale.manager import compute
 from custom_components.fg260_scale.models import Person
 from custom_components.fg260_scale.queue import PendingReading
@@ -24,7 +24,7 @@ async def test_age_uses_local_date(hass: HomeAssistant) -> None:
     day_before = birthday - timedelta(hours=1)  # 23:30 on 30 June BST
 
     def at_age(age: int) -> Any:
-        return calculate(100.0, 180, age, "male", False, 500.0)
+        return calculate(100.0, 180, age, "male", 500.0)
 
     assert at_age(41) != at_age(40)
     def reading(when: datetime) -> PendingReading:
@@ -76,7 +76,6 @@ ROBIN = {
     "height_cm": 175,
     "sex": "female",
     "birth_date": "1995-03-01",
-    "athlete": False,
     "notify_services": ["notify.chris_phone"],
 }
 

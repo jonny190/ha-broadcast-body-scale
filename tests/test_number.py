@@ -86,13 +86,17 @@ async def test_setting_height_saves_profile_and_recalculates(
     assert hass.states.get(_eid(hass, "sensor", "chris", "weight")).state == "115.05"
 
 
-async def test_result_without_recorded_profile_is_left_alone(
+async def test_result_without_recorded_profile_is_recalculated_at_start(
     hass: HomeAssistant, hass_storage: dict, setup_entry: Any
 ) -> None:
-    """Results stored before profiles were recorded keep their values."""
-    _store(hass_storage, {"queue": [], "last": {"chris": _last(115.0, EARLIER)}})
+    """Results from before the current method are recalculated on startup."""
+    legacy = {**_last(115.05, EARLIER), "impedance": 525}
+    _store(hass_storage, {"queue": [], "last": {"chris": legacy}})
     entry = await setup_entry(people=(CHRIS,))
-    assert entry.runtime_data.last_result("chris").bmi == 20.0
+    bmi, comp = _expected_comp(CHRIS, 115.05, 525, EARLIER)
+    result = entry.runtime_data.last_result("chris")
+    assert (result.bmi, result.composition) == (bmi, comp)
+    assert result.profile["method"] == "published-v1"
 
 
 async def test_setting_height_recalculates_result_without_recorded_profile(

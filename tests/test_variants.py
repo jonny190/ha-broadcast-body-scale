@@ -294,17 +294,20 @@ def _reading(**kw: Any) -> PendingReading:
     return PendingReading(id="r", timestamp=T0, weight_kg=80.0, **kw)
 
 
-def test_no_formula_gives_bmi_only() -> None:
+def test_any_impedance_gives_composition_whatever_the_formula() -> None:
     bmi, comp = compute(PERSON, _reading(impedance=500, formula=None, adc_mode="ohm"))
     assert bmi == pytest.approx(24.7, abs=0.05)
-    assert comp is None
+    assert comp is not None and comp.body_fat is not None
+    assert compute(PERSON, _reading(impedance=500, formula=7, adc_mode="ohm")) == (bmi, comp)
 
 
-def test_wla03_with_ohms_skips_vendor_correction() -> None:
-    raw = compute(PERSON, _reading(impedance=500, formula=3, adc_mode="ohm"))
-    assert raw[1] is not None
-    # Below the correction threshold both modes agree.
-    assert raw == compute(PERSON, _reading(impedance=500, formula=3))
+def test_ohm_mode_skips_a6_scaling() -> None:
+    big = compute(PERSON, _reading(impedance=5000, adc_mode="ohm"))
+    assert big[1] is None  # 5000 ohm is not plausible as it stands
+    # Below the scaling threshold both modes agree.
+    assert compute(PERSON, _reading(impedance=500, adc_mode="ohm")) == compute(
+        PERSON, _reading(impedance=500)
+    )
 
 
 def test_scale_metrics_used_when_no_formula() -> None:
@@ -348,7 +351,7 @@ async def test_untested_scale_setup_warns(
         result["flow_id"],
         {
             "name": "Chris", "height_cm": 180, "sex": "male",
-            "birth_date": "1985-01-01", "athlete": False,
+            "birth_date": "1985-01-01",
             "notify_services": ["notify.chris_phone"],
         },
     )
@@ -384,7 +387,7 @@ async def test_bm15_end_to_end(
             "tolerance_kg": 3.0,
             "people": [{
                 "id": "chris", "name": "Chris", "height_cm": 180, "sex": "male",
-                "birth_date": "1985-01-01", "athlete": False,
+                "birth_date": "1985-01-01",
                 "notify_services": ["notify.chris_phone"],
             }],
         },
@@ -410,7 +413,9 @@ async def test_bm15_end_to_end(
     )
     await manager.async_assign(reading.id, "chris")
     result = manager.last_result("chris")
-    assert result.composition is None and result.bmi == pytest.approx(24.7, abs=0.05)
+    # BM15 sends no formula; the published equations still apply.
+    assert result.bmi == pytest.approx(24.7, abs=0.05)
+    assert result.composition is not None and result.composition.body_fat is not None
 
     diag = await async_get_config_entry_diagnostics(hass, entry)
     assert diag["scale"]["tested"] is False

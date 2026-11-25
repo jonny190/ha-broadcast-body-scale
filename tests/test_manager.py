@@ -33,7 +33,8 @@ from pytest_homeassistant_custom_component.common import (
 )
 
 from custom_components.fg260_scale.assembler import Measurement
-from custom_components.fg260_scale.body.wla03 import calculate, correct_impedance
+from custom_components.fg260_scale.body.composition import calculate
+from custom_components.fg260_scale.parser import a6_impedance_ohms
 from custom_components.fg260_scale.const import DOMAIN
 from custom_components.fg260_scale.models import age_on
 from custom_components.fg260_scale.queue import PendingReading, ReadingQueue
@@ -51,7 +52,6 @@ CHRIS = {
     "height_cm": 180,
     "sex": "male",
     "birth_date": "1985-01-01",
-    "athlete": False,
     "notify_services": ["notify.chris_phone"],
 }
 SAM = {
@@ -60,7 +60,6 @@ SAM = {
     "height_cm": 165,
     "sex": "female",
     "birth_date": "1990-06-01",
-    "athlete": False,
     # shares Chris's group: it must only be notified once
     "notify_services": ["notify.sam_phone", "notify.chris_phone"],
 }
@@ -195,8 +194,7 @@ def _expected_comp(person: dict, weight: float, adc: int, when: datetime):
             date.fromisoformat(person["birth_date"]), dt_util.as_local(when).date()
         ),
         person["sex"],
-        person["athlete"],
-        correct_impedance(adc, weight),
+        a6_impedance_ohms(adc, weight),
     )
 
 

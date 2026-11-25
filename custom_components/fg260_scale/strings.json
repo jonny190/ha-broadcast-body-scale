@@ -13,7 +13,7 @@
       },
       "untested": {
         "title": "Untested scale type",
-        "description": "This scale type ({model}) hasn't been tested with a real scale yet. Its readings are decoded from the vendor app's protocol, so weights may be wrong or missing, and body fat is only calculated for scales that use the WLA03 formula. If it doesn't work, open an issue and attach the integration's diagnostics download: it includes recent raw broadcasts from the scale."
+        "description": "This scale type ({model}) hasn't been tested with a real scale yet. Its readings are decoded from the vendor app's protocol, so weights may be wrong or missing. If it doesn't work, open an issue and attach the integration's diagnostics download: it includes recent raw broadcasts from the scale."
       },
       "person": {
         "title": "Add a person",
@@ -23,7 +23,6 @@
           "height_cm": "Height (cm)",
           "sex": "Sex",
           "birth_date": "Date of birth",
-          "athlete": "Athlete mode",
           "notify_services": "Notify services"
         },
         "data_description": {
@@ -69,7 +68,6 @@
         "height_cm": "Height (cm)",
         "sex": "Sex",
         "birth_date": "Date of birth",
-        "athlete": "Athlete mode",
         "notify_services": "Notify services"
       }, "data_description": {
         "height_cm": "Between 100 and 250 cm.",
@@ -81,7 +79,6 @@
         "height_cm": "Height (cm)",
         "sex": "Sex",
         "birth_date": "Date of birth",
-        "athlete": "Athlete mode",
         "notify_services": "Notify services"
       } },
       "remove_person": { "title": "Remove person", "data": { "person": "Person" } },

@@ -23,7 +23,7 @@ from homeassistant.util import dt as dt_util
 
 from .assembler import Measurement, WeighInAssembler
 from .assignment import choose_person
-from .body.wla03 import BodyComposition, calculate, correct_impedance
+from .body.composition import METHOD, BodyComposition, calculate
 from .const import (
     CONF_ADDRESS,
     CONF_CONFIRM_AUTO,
@@ -39,6 +39,7 @@ from .parser import (
     FAMILY_ICOMON,
     MANUFACTURER_ID,
     ScaleIdentity,
+    a6_impedance_ohms,
     parse_manufacturer_data,
 )
 from .queue import PendingReading, ReadingQueue
@@ -177,12 +178,8 @@ def profile_of(person: Person) -> dict[str, Any]:
         "height_cm": person.height_cm,
         "sex": person.sex,
         "birth_date": person.birth_date.isoformat(),
-        "athlete": person.athlete,
+        "method": METHOD,
     }
-
-
-# Body-fat formulas (the scale's WLA number) that are implemented.
-SUPPORTED_FORMULAS = frozenset({3})
 
 
 def impedance_ohms(
@@ -192,7 +189,7 @@ def impedance_ohms(
     if not impedance:
         return None
     if adc_mode == "fitdays":
-        return correct_impedance(impedance, weight_kg)
+        return a6_impedance_ohms(impedance, weight_kg)
     return impedance
 
 
@@ -211,17 +208,15 @@ def compute(
     """BMI and body composition of one reading for one person.
 
     Age is taken on the reading's local date, as the person sees it. Without
-    an implemented formula the result is BMI only, unless the scale computed
-    its own body composition.
+    an impedance the result is BMI only, unless the scale computed its own
+    body composition.
     """
-    impedance = impedance_ohms(reading.impedance, reading.adc_mode, reading.weight_kg)
     bmi, composition = calculate(
         reading.weight_kg,
         person.height_cm,
         age_on(person.birth_date, dt_util.as_local(reading.timestamp).date()),
         person.sex,
-        person.athlete,
-        impedance if reading.formula in SUPPORTED_FORMULAS else None,
+        impedance_ohms(reading.impedance, reading.adc_mode, reading.weight_kg),
     )
     if composition is None and reading.scale_metrics:
         composition = _scale_composition(reading.scale_metrics, bmi)
@@ -339,24 +334,19 @@ class ScaleManager:
         """Recompute results whose person's profile has since changed."""
         for person in self.people.values():
             profile = profile_of(person)
-            if any(
-                r.profile is not None and r.profile != profile
-                for r in self.history(person.id)
-            ):
-                await self._async_recalculate(person, only_recorded=True)
+            if any(r.profile != profile for r in self.history(person.id)):
+                await self._async_recalculate(person)
 
-    async def _async_recalculate(self, person: Person, *, only_recorded: bool) -> None:
+    async def _async_recalculate(self, person: Person) -> None:
         """Recompute a person's results with their given profile.
 
-        ``only_recorded`` leaves alone results stored before profiles were
-        recorded (their inputs are unknown, so they are trusted as they are).
+        Results computed with another profile or method (or stored before
+        either was recorded) are recalculated from their weight and impedance.
         """
         profile = profile_of(person)
         updated = []
         for result in self.history(person.id):
-            if result.profile != profile and not (
-                only_recorded and result.profile is None
-            ):
+            if result.profile != profile:
                 bmi, composition = compute(person, result)
                 result = replace(
                     result, bmi=bmi, composition=composition, profile=profile
@@ -368,15 +358,13 @@ class ScaleManager:
     async def async_set_height(self, person_id: str, height_cm: int) -> None:
         """Save a new height and recalculate the person's results.
 
-        Recalculating here, rather than only on the reload that follows, also
-        covers results stored before profiles were recorded.
+        Results are recalculated here so the sensors update at once, before
+        the reload that the options change triggers.
         """
         person = self.people.get(person_id)
         if person is None:
             raise ServiceValidationError(f"Unknown person: {person_id}")
-        await self._async_recalculate(
-            replace(person, height_cm=height_cm), only_recorded=False
-        )
+        await self._async_recalculate(replace(person, height_cm=height_cm))
         people = [
             {**raw, "height_cm": height_cm} if raw["id"] == person_id else raw
             for raw in self.entry.options.get("people", [])

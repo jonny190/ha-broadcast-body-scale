@@ -40,7 +40,7 @@ For `0xCA`/`0xCE` from a scale with `k == 0x01`, `d2,d3` hold the temperature
 as for `0xA9`.
 
 Impedance: for `0xA6`, a raw value of 1500 or more is corrected using the
-weight (see `body/wla03.py`). For the other frames, values above 1500 are
+weight (see `a6_impedance_ohms` in `parser.py`). For the other frames, values above 1500 are
 divided by 10.
 
 Display-step codes: 0 → 0.01, 1 → 0.02, 2 → 0.05, 3 → 0.1, 4 → 0.2 units.
@@ -97,8 +97,8 @@ Value indexes:
 - 9 body age
 - 10 protein /10
 
-## Body-fat formulas
+## Body-fat formula number
 
-Scales name a formula WLA01–WLA44 (there is no WLA21). Only **WLA03** is
-implemented. Readings that ask for another formula, or none, are stored with
-their impedance and shown as weight and BMI only.
+Some frames carry the number of the vendor app's body-fat formula
+(1 to 44). The integration stores it with each reading but doesn't use it:
+body composition comes from published equations instead (see the README).

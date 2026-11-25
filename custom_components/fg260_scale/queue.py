@@ -20,9 +20,10 @@ HISTORY_CAP = 50
 class PendingReading:
     """A weigh-in waiting to be assigned.
 
-    ``impedance`` is as the scale sent it: a raw ADC needing the vendor
-    correction when ``adc_mode`` is "fitdays", else ohms. ``formula`` is the
-    body-fat formula number the scale asked for (WLA03 = 3), or None.
+    ``impedance`` is as the scale sent it: an 0xA6 raw value when
+    ``adc_mode`` is "fitdays" (see ``parser.a6_impedance_ohms``), else ohms.
+    ``formula`` is the vendor body-fat formula number the scale sent, or
+    None; it is stored for reference only.
     Stored readings from before these fields came from the FG260, hence the
     defaults.
     """
